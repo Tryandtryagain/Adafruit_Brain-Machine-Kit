@@ -186,6 +186,17 @@ void do_brainwave_element(int index) {
       blink_LEDs( pgm_read_dword(&brainwaveTab[index].bwDuration), 1922, 1923 );
       return;   // Delta
     }
+     
+     else if (brainChr == 'g') {
+      // Gamma
+      // start Timer1 with the correct Offset Frequency for a binaural beat for the Brainwave Type
+      //   to Right ear speaker through output OC1A (PB1, pin 6)
+      OCR1C = 64;  // T1 generates 240.385Hz, for a binaural beat of 40.06Hz
+      // delay for the time specified in the table while blinking the LEDs at the correct rate
+      //   onTime = 125.0ms, offTime = 125.0ms --> 40.0Hz
+      blink_LEDs( pgm_read_dword(&brainwaveTab[index].bwDuration), 125, 125 );
+      return;   // Theta
+}
 
     // this should never be executed, since we catch the end of table in the main loop
     else {
